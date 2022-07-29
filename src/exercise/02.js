@@ -2,15 +2,8 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 
 /* ✅ modify this usePokemon custom hook to take in a query as an argument */
-export function usePokemon() {
+export function usePokemon(query) {
   /* ✅ this hook should only return one thing: an object with the pokemon data */
-}
-
-function Pokemon({ query }) {
-  /* 
-   ✅ move the code from the useState and useEffect hooks into the usePokemon hook
-   then, call the usePokemon hook to access the pokemon data in this component
-  */
   const [pokemon, setPokemon] = useState(null);
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${query}`)
@@ -18,7 +11,15 @@ function Pokemon({ query }) {
       .then(setPokemon);
   }, [query]);
 
-  // 🚫 don't worry about the code below here, you shouldn't have to touch it
+}
+
+function Pokemon({query}) {
+  /* 
+   ✅ move the code from the useState and useEffect hooks into the usePokemon hook
+   then, call the usePokemon hook to access the pokemon data in this component
+  */
+  
+  const { data: pokemon } = usePokemon(query)
   if (!pokemon) return <h3>Loading...</h3>;
 
   return (
@@ -30,7 +31,11 @@ function Pokemon({ query }) {
       />
     </div>
   );
-}
+  }
+ 
+  
+  // 🚫 don't worry about the code below here, you shouldn't have to touch it
+  
 
 export default function App() {
   const [query, setQuery] = useState("charmander");
